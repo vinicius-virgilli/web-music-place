@@ -1,0 +1,36 @@
+.perfilMainContainer {
+    display: flex;
+    flex-direction: column;
+    margin:  70px 5vw 5vw  5vw;
+    padding: 5vw;
+    border-radius: 10px;
+    
+  }
+
+  .perfilMainContainer img {
+    min-height: 125px;
+    width: auto;
+    border-radius: 10px;
+    box-shadow: 0 0 1px rgb(14, 190, 161) , 0 0 10px rgb(0, 0, 0) , 0 0 0 rgb(0, 0, 0) , 0 0 0.8rem -5px rgb(12, 196, 190) , 0 0 2.4rem -5px rgb(15, 184, 173) , inset 0 0 0 rgb(0, 0, 0);
+  }
+  
+  .perfilMainContainer button {
+    margin: 20px 0 0 25vw;
+  }
+
+  .perfilEdit {
+    position: fixed;
+    top: 70px;
+    margin:  70px 5vw 5vw  5vw;
+    padding: 5vw;
+  }
+
+  .perfilEdit input, textArea {
+    width: 90%;
+    margin-bottom: 20px;
+  }
+
+  .perfilEdit button {
+    margin-top: 30px;
+    margin-left: 30vw;
+  }

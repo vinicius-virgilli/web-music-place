@@ -3,7 +3,9 @@ import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import Login from './pages/Login';
 import Search from './pages/Search';
 import Album from './pages/Album';
-import Favorites from './pages/Favorites';
+import Music from './pages/Music';
+import FavoriteSongs from './pages/FavoriteSongs';
+import FavoriteAlbums from './pages/FavoriteAlbums';
 import NotFound from './pages/NotFound';
 import Profile from './pages/Profile';
 import ProfileEdit from './pages/ProfileEdit';
@@ -58,27 +60,36 @@ class App extends React.Component {
                   onCreateUser={ this.onCreateUser }
                 />) }
               />
-              <Route path="/loading" render={ () => <Loading /> } />
+              <Route path="/loading/:id?" render={ (props) => <Loading { ...props }/> } />
               <Route
                 path="/search"
-                render={ () => (<Search />) }
+                render={ (props) => (<Search { ...props }/>) }
               />
               <Route
                 path="/album/:id?"
                 render={ (props) => (<Album { ...props } />) }
               />
               <Route
-                path="/favorites"
-                render={ () => (<Favorites />) }
+                exact
+                path="/favorite/Songs"
+                render={ (props) => (<FavoriteSongs { ...props }/>) }
+              />
+              <Route
+                path="/favorites/Albums"
+                render={ (props) => (<FavoriteAlbums { ...props }/>) }
+              />
+              <Route
+                path="/music/:id?"
+                render={ (props) => (<Music { ...props }/>) }
               />
               <Route
                 exact
                 path="/profile"
-                render={ () => (<Profile />) }
+                render={ (props) => (<Profile { ...props }/>) }
               />
               <Route
                 path="/profile/edit"
-                render={ () => (<ProfileEdit />) }
+                render={ (props) => (<ProfileEdit { ...props }/>) }
               />
               <Route render={ () => <NotFound /> } />
 

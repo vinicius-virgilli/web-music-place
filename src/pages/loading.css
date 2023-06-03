@@ -1,0 +1,93 @@
+.loading {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.carregando {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .carregando img {
+    height: 50px;
+    margin-bottom: 20px;
+  }
+
+  .carregando  span {
+    display: inline-block;
+    vertical-align: middle;
+    width: 10px;
+    height: 30px;
+    background: #02099b;
+    animation: carregando
+      0.62s infinite alternate;
+  }
+
+  .carregando span:nth-of-type(1) {
+    border-top-left-radius: 50%;
+    border-bottom-left-radius: 50%;
+  }
+
+  .carregando  span:nth-of-type(2) {
+    
+    animation-delay: 0.06s;
+  }
+  .carregando  span:nth-of-type(3) {
+    background: #011cb6;
+    animation-delay: 0.12s;
+  }
+  .carregando  span:nth-of-type(4) {
+    background: #0140b6;
+    animation-delay: 0.18s;
+  }
+  .carregando  span:nth-of-type(5) {
+    background: #0158b6;
+    animation-delay: 0.24s;
+  }
+  .carregando  span:nth-of-type(6) {
+    background: #0171b6;
+    animation-delay: 0.30s;
+  }
+  .carregando  span:nth-of-type(7) {
+    background: #0186b6;
+    animation-delay: 0.36s;
+  }
+  .carregando  span:nth-of-type(8) {
+    background: #01aab6;
+    animation-delay: 0.42s;
+  }
+  .carregando  span:nth-of-type(9) {
+    background: #01b6aa;
+    animation-delay: 0.48s;
+  }
+  .carregando  span:nth-of-type(10) {
+    background: #01b68c;
+    animation-delay: 0.52s;
+  }
+  .carregando  span:nth-of-type(11) {
+    background: #01b677;
+    animation-delay: 0.58s;
+  }
+  .carregando  span:nth-of-type(12) {
+    background: #01b665;
+    animation-delay: 0.62s;
+  }
+  .carregando  span:nth-of-type(13) {
+    background: #01b640;
+    animation-delay: 0.68s;
+    border-top-right-radius: 50%;
+    border-bottom-right-radius: 50%;
+  }
+
+  @keyframes carregando  {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }

@@ -1,11 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Header from '../componentes/Header';
 import Loading from './Loading';
 import MusicCard from '../componentes/MusicCard';
 import { getUser } from '../services/userAPI';
 import { addSong, removeSong, getFavoriteSongs } from '../services/favoriteSongsAPI';
 import getMusics from '../services/musicsAPI';
+import './album.css';
+import Footer from '../componentes/Footer';
+import iconeVoltar from '../imagens/iconeVoltar.png';
+import iconePesquisar from '../imagens/iconePesquisar.svg';
+import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 
 class Album extends React.Component {
   constructor() {
@@ -14,8 +18,9 @@ class Album extends React.Component {
     this.state = {
       loading: false,
       userName: '',
-      albumInfo: [],
+      albumInfo: {},
       favoriteSongs: [],
+      musics: [],
     };
 
     this.test = this.test.bind(this);
@@ -27,6 +32,7 @@ class Album extends React.Component {
     const { match: { params: { id } } } = this.props;
     this.test();
     const albumInfo = await getMusics(id);
+    console.log(albumInfo[1]);
     const musics = albumInfo.slice(1);
     this.setState({
       albumInfo: albumInfo[0],
@@ -35,7 +41,6 @@ class Album extends React.Component {
   }
 
   async onAddOrRemoveSong(object) {
-    this.setState({ loading: true });
     let { favoriteSongs } = this.state;
     const { trackName } = object;
     if (favoriteSongs.some((song) => song.trackName === trackName)) {
@@ -44,18 +49,16 @@ class Album extends React.Component {
       await addSong(object);
     }
     favoriteSongs = await getFavoriteSongs();
-    this.setState({
-      loading: false,
-      favoriteSongs,
-    });
+    this.setState({ favoriteSongs })
   }
 
-  madeMusicCard(music) {
+  madeMusicCard(music, num) {
     const { collectionId } = music;
     const { favoriteSongs } = this.state;
     return (
       <li key={ collectionId }>
         <MusicCard
+          num={ num }
           { ...music }
           onAddOrRemoveSong={ this.onAddOrRemoveSong }
           favoriteSongs={ favoriteSongs }
@@ -77,23 +80,59 @@ class Album extends React.Component {
   }
 
   render() {
-    const { loading, userName, albumInfo, musics } = this.state;
-    const { artistName, collectionName } = albumInfo;
+    const { history } = this.props;
+    const { loading, albumInfo, musics } = this.state;
+    const { artistName, artworkUrl100, releaseDate
+      } = albumInfo;
+    let { collectionName } = albumInfo;
+
+    const data = releaseDate !== undefined ? releaseDate.toString().substring(0, 4) : '';
+
     let list;
     if (musics) {
-      list = musics.map((music) => this.madeMusicCard(music));
+      list = <ul>{musics.map((music, index) => this.madeMusicCard(music, (index + 1)))}</ul>;
     } else {
       list = '';
     }
 
+    const subTitle = (list.length === 1) ? 'Single' : 'Album';
+
+    if (subTitle === 'Single') {
+      collectionName = collectionName ? collectionName.substring(0, (collectionName.length - 9)) : '';
+    }
+
     const exibir = (loading) ? (
-      <Loading />
+      <Loading history={ history }/>
     ) : (
-      <div data-testid="page-album">
-        <Header userName={ userName } />
-        <h3 data-testid="artist-name">{artistName}</h3>
-        <h3 data-testid="album-name">{collectionName}</h3>
+      <div className='albumMainContainer'>
+        <div className='albumHeader'>
+          <Link to='/search'>
+          <img src={iconeVoltar} alt='voltarSearch' className='voltarSearch'></img>
+          </Link>
+
+          <section className='albumInfo'>
+            <div className='albumInfoTop'>
+              <img src={ artworkUrl100 } alt=''/>
+              <span>{artistName}</span>
+            </div>
+            <p>{`${subTitle} - ${data}`}</p>
+          </section>
+
+          <Link to='/search'>
+          <img
+          alt=''
+          src={iconePesquisar}
+          className='iconePesquisar'
+            />
+          </Link>
+        </div>
+
+        <img src={ artworkUrl100 }
+          alt=''
+          className='imageAlbum' />
+        <h2 className='albumTilte'>{collectionName}</h2>
         {list}
+        <Footer />
       </div>
     );
     return exibir;

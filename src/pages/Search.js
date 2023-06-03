@@ -4,6 +4,8 @@ import Header from '../componentes/Header';
 import Loading from './Loading';
 import { getUser } from '../services/userAPI';
 import searchAlbumsAPI from '../services/searchAlbumsAPI';
+import './search.css';
+import Footer from '../componentes/Footer';
 
 class Search extends React.Component {
   constructor() {
@@ -12,6 +14,7 @@ class Search extends React.Component {
     this.state = {
       loading: false,
       userName: '',
+      image: '',
       searchedArtist: '',
       isSearchedArtistValid: false,
       searching: false,
@@ -30,8 +33,7 @@ class Search extends React.Component {
     this.test();
   }
 
-  onSearchedArtist({ target }) {
-    const { value } = target;
+  onSearchedArtist(value) {
     const valueSemEspaco = value.replace(/\s/g, '');
     if (valueSemEspaco.length >= 2) {
       this.setState({
@@ -54,6 +56,7 @@ class Search extends React.Component {
     let results;
     try {
       results = await searchAlbumsAPI(searchedArtist);
+      localStorage.setItem('lastSearchedArtist', searchedArtist);
     } catch {
       results = [];
     }
@@ -68,19 +71,31 @@ class Search extends React.Component {
         searchedArtist: '',
         isSearchedArtistValid: false,
       });
-      console.log(results);
     }
-    /* this.setState({ results }); */
   }
 
   async test() {
     this.setState({ loading: true });
     const retorno = await getUser();
     const userName = retorno.name;
+    const image = retorno.image;
+    const lastSearchedArtist = localStorage.getItem('lastSearchedArtist');
+    if (lastSearchedArtist) {
+      this.setState({searchedArtist: lastSearchedArtist}, () => {
+        this.getArtistInfo();
+      });
+    }
     this.setState({
       userName,
       loading: false,
+      image,
     });
+  }
+
+  saveAlbumId(nomeDaColecao) {
+    const { results } = this.state;
+    localStorage.setItem('results', JSON.stringify(results));
+    localStorage.setItem('nomeDaColecao', nomeDaColecao);
   }
 
   createCard({
@@ -92,29 +107,36 @@ class Search extends React.Component {
     trachCount,
     collectionName,
   }) {
+    const lastSearchedArtist = localStorage.getItem('lastSearchedArtist');
     const data = releaseDate;
     const price = collectionPrice;
-    const artist = artistName;
+    let artist = artistName;
     const capaUrl = artworkUrl100;
     const quantMusicas = trachCount;
     const nomeDaColecao = collectionName;
+    if (artist.length > 15) {
+      artist = `${lastSearchedArtist} e outros`;
+    }
     return (
-      <li key={ collectionId } className="album">
+      <li key={ collectionId } className='albumLi' >
         <Link
-          data-testid={ `link-to-album-${collectionId}` }
           to={ `album/${collectionId}` }
+          className="album"
         >
-          Ver músicas
+          <div className="albumContainer">
+            <div className='albumImage'>
+              <img src={ capaUrl } alt="capa" />
+            </div>
+            <div className='albumDetalhes'>
+              <h4>{nomeDaColecao}</h4>
+              <p>{artist}</p>
+            </div>
+            <p>{price}</p>
+          </div>
+          
 
         </Link>
-        <img src={ capaUrl } alt="capa" />
-        <div className="albumInfo">
-          <h4>{artist}</h4>
-          <p>{nomeDaColecao}</p>
-          <p>{quantMusicas}</p>
-          <p>{data}</p>
-          <p>{price}</p>
-        </div>
+        
       </li>
     );
   }
@@ -123,6 +145,7 @@ class Search extends React.Component {
     const {
       loading,
       userName,
+      image,
       searching,
       isSearched,
       results,
@@ -130,9 +153,11 @@ class Search extends React.Component {
       lastSearchedArtist,
       isSearchedArtistValid } = this.state;
 
+    const { history } = this.props;
+    const { getArtistInfo, onSearchedArtist } = this;
+
     let frase;
     if (isSearched) {
-      console.log(results, isSearched, lastSearchedArtist);
       if (results.length === 0 && lastSearchedArtist !== '') {
         frase = 'Nenhum álbum foi encontrado';
       } else if (lastSearchedArtist) {
@@ -151,39 +176,26 @@ class Search extends React.Component {
     const exibir = (loading) ? (
       <Loading />
     ) : (
-      <div data-testid="page-search">
-        <Header userName={ userName } />
+      <div className='searchPage'>
+        <Header
+        userName={ userName }
+        image={image}
+        getArtistInfo={getArtistInfo}
+        searchedArtist={searchedArtist}
+        onSearchedArtist={onSearchedArtist}
+        isSearchedArtistValid={isSearchedArtistValid}
+        history={history}
+        />
         {searching ? (
           <Loading />
         ) : (
-          <>
-            <form action="">
-              <label
-                htmlFor="buscar"
-              >
-                Digite o nome do artista
-
-                <input
-                  data-testid="search-artist-input"
-                  type="text"
-                  value={ searchedArtist }
-                  onChange={ this.onSearchedArtist }
-                />
-              </label>
-              <button
-                onClick={ () => this.getArtistInfo() }
-                data-testid="search-artist-button"
-                disabled={ !isSearchedArtistValid }
-              >
-                Pesquisar
-
-              </button>
-            </form>
+          <div className='searchContainer'>
             <p>{frase}</p>
-            <ol>
+            <ol className='albumOl'>
               {list}
             </ol>
-          </>
+            <Footer />
+          </div>
         )}
       </div>
     );

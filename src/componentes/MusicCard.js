@@ -1,5 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import './musicCard.css';
+import iconeFavoritosRed from '../imagens/iconeFavoritos.png';
+import iconeFavoritosWhite from '../imagens/coracaoBranco.png';
+import gifRemove from '../imagens/gifFavoritosRemove.gif';
+import gifAdd from '../imagens/gifFavoritosAdd.gif';
+import { Link } from 'react-router-dom/cjs/react-router-dom.min';
+
 
 class MusicCard extends React.Component {
   constructor() {
@@ -7,6 +14,9 @@ class MusicCard extends React.Component {
 
     this.state = {
       check: false,
+      add: false,
+      classe: 'favoritar',
+      remove: false,
     };
 
     this.onChangeInput = this.onChangeInput.bind(this);
@@ -20,6 +30,22 @@ class MusicCard extends React.Component {
   onChangeInput() {
     const { onAddOrRemoveSong } = this.props;
     const { check } = this.state;
+    if (check) {
+      this.setState({
+        remove: true,
+        classe: 'changeFavorite',
+      })
+    } else {this.setState({
+      add: true,
+      classe: 'changeFavorite',
+    })}
+    setTimeout(() => {
+      this.setState({
+        remove: false,
+        add: false,
+        classe: 'favoritar',
+      })
+    }, 600);
     this.setState({ check: !check }, async () => onAddOrRemoveSong(this.props));
   }
 
@@ -35,27 +61,57 @@ class MusicCard extends React.Component {
   }
 
   render() {
-    const { trackName, previewUrl, trackId } = this.props;
-    const { check } = this.state;
+    const { trackName, num, artistName, trackId
+ } = this.props;
+    const { check, add, remove, classe } = this.state;
+
+    let icone;
+    // console.log(trackId);
+    
+    if (add) {
+      icone = gifAdd;
+    } else if (remove) {
+      icone = gifRemove;
+    } else if (check) {
+      icone = iconeFavoritosRed;
+    } else {
+      icone = iconeFavoritosWhite;
+    }
+
+    const musicName = (trackName.length > 31) ? (
+      trackName.substring(0,31) + '...'
+    ) : (
+      trackName
+    )
+
+    const artist = (artistName.length > 31) ? (
+      artistName.substring(0,31) + '...'
+    ) : (
+      artistName
+    )
+
+    const favoritar = (
+            <img
+              src={ icone }
+              alt=""
+              onClick={this.onChangeInput}
+            />
+          )   
+
     return (
       <div className="musicCard">
-        <p>{trackName}</p>
-        <audio data-testid="audio-component" src={ previewUrl } controls>
-          <track kind="captions" />
-          O seu navegador não suporta o elemento
-          {' '}
-          {' '}
-          <code>audio</code>
-          .
-        </audio>
-        <label htmlFor="musicFavorite">Favorita</label>
-        <input
-          id="musicFavorite"
-          data-testid={ `checkbox-music-${trackId}` }
-          type="checkbox"
-          checked={ check }
-          onChange={ this.onChangeInput }
-        />
+        <Link to={`/music:${trackId}`} className='link'>
+          <section className='trackInfoContainer'>
+            <p className='num'>{ num }</p>
+          <div className='trackInfo'>
+          <p>{ musicName }</p>
+          <p className='artistSubTitle'>{ artist }</p>
+          </div>
+        </section>
+        </Link>
+        <div className={classe}>
+          {favoritar}
+        </div>
       </div>
     );
   }

@@ -1,0 +1,29 @@
+
+@media (max-width: 450px) {
+  footer {
+    position: fixed;
+    background: linear-gradient(to bottom, #000000, #030352);
+    bottom: 0;
+    z-index: 5;
+    height: 50px;
+    width: 100%;
+    box-shadow: 0 2px 5px rgb(0, 0, 0);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    box-shadow: 5px 5px 5px blue;
+  }
+
+  footer img {
+    height: 30px;
+    margin-right: 10px;
+  }
+
+  footer a {
+    color: rgba(255, 255, 255, 0.859);
+    text-decoration: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}

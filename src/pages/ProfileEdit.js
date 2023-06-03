@@ -29,7 +29,7 @@ class ProfileEdit extends React.Component {
     this.setState({ loading: true });
     const userInfo = await getUser();
     const { name, image, description, email } = userInfo;
-    if (name && image && description && email) {
+    if (name) {
       this.setState({ isValidInputs: true });
     }
     this.setState({
@@ -43,9 +43,9 @@ class ProfileEdit extends React.Component {
 
   saveUserInfo({ target }) {
     const { value, id } = target;
-    this.setState({ [id]: value });
-    const { name, image, description, email } = this.state;
-    if (name && description && email && image) {
+    this.setState({[id]: value})
+    const { name } = this.state;
+    if (name ) {
       this.setState({
         isValidInputs: true,
       });
@@ -57,22 +57,26 @@ class ProfileEdit extends React.Component {
   }
 
   render() {
+    const { history } = this.props;
     const { loading, name, email, description, image, isValidInputs } = this.state;
     const exibir = (loading) ? (
       <Loading />
     ) : (
-      <div data-testid="page-profile-edit">
-        <Header userName={ name } />
-        <div>
-          <label htmlFor="image">image</label>
+      <div>
+        <Header userName={ name } image={image} history={history}/>
+        <div className='perfilEdit'>
+          <div>
+          <label htmlFor="image">Url da imagem</label>
+          
           <input
-            data-testid="edit-input-image"
             type="text"
             id="image"
             value={ image }
             onChange={ this.saveUserInfo }
           />
+          </div>
 
+          <div>
           <label htmlFor="name">Nome</label>
           <input
             data-testid="edit-input-name"
@@ -81,7 +85,9 @@ class ProfileEdit extends React.Component {
             value={ name }
             onChange={ this.saveUserInfo }
           />
+          </div>
 
+          <div>
           <label htmlFor="email">Email</label>
           <input
             data-testid="edit-input-email"
@@ -90,15 +96,20 @@ class ProfileEdit extends React.Component {
             value={ email }
             onChange={ this.saveUserInfo }
           />
+          </div>
 
+          <div>
           <label htmlFor="description">Descrição</label>
-          <input
+          <textarea
+            rows={5}
             data-testid="edit-input-description"
             type="text"
             id="description"
             value={ description }
             onChange={ this.saveUserInfo }
           />
+          </div>
+
           <Link to="/profile">
             <button
               data-testid="edit-button-save"

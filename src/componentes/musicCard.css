@@ -1,0 +1,68 @@
+@media (max-width: 450px) {
+  .musicCard {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 16px;
+    height: 40px;
+    margin-bottom: 30px;
+  }
+
+  .musicCard a {
+    padding: 0;
+    margin: 0;
+    width: 80%;
+  }
+
+  .trackInfoContainer {
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+
+  .link {
+    text-decoration: none;
+    color: white;
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+
+  .trackInfoContainer div {
+    margin-left: 25px;
+  }
+
+  .trackInfo {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .trackInfo p {
+    margin: 0;
+    margin-bottom: 5px;
+  }
+
+  .num {
+    width: 10px;
+  }
+
+  .artistSubTitle {
+    color: rgba(255, 255, 255, 0.609);
+  }
+
+  .favoritar img {
+    padding: 0;
+    border-radius: 50%;
+    background-color: black;
+    height: 25px;
+  }
+
+  .changeFavorite img {
+    padding: 0;
+    border-radius: 50%;
+    background-color: black;
+    height: 25px;
+    box-shadow: 0 0 1px rgb(220, 12, 12) , 0 0 10px rgb(220, 12, 12) , 0 0 0 rgb(220, 12, 12) , 0 0 0.8rem -5px rgb(220, 12, 12) , 0 0 2.4rem -5px rgb(220, 12, 12) , inset 0 0 0 rgb(220, 12, 12);
+  }
+}
