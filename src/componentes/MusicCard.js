@@ -5,7 +5,7 @@ import iconeFavoritosRed from '../imagens/iconeFavoritos.png';
 import iconeFavoritosWhite from '../imagens/coracaoBranco.png';
 import gifRemove from '../imagens/gifFavoritosRemove.gif';
 import gifAdd from '../imagens/gifFavoritosAdd.gif';
-import { Link } from 'react-router-dom/cjs/react-router-dom.min';
+import { Redirect, Link as div } from 'react-router-dom/cjs/react-router-dom.min';
 
 
 class MusicCard extends React.Component {
@@ -17,10 +17,12 @@ class MusicCard extends React.Component {
       add: false,
       classe: 'favoritar',
       remove: false,
+      redirect: false,
     };
 
     this.onChangeInput = this.onChangeInput.bind(this);
     this.updateCheckBox = this.updateCheckBox.bind(this);
+    this.redirectToMusic = this.redirectToMusic.bind(this);
   }
 
   componentDidMount() {
@@ -60,10 +62,16 @@ class MusicCard extends React.Component {
     } else { this.setState({ check: false }); }
   }
 
+  redirectToMusic() {
+    // console.log(trackName);
+    localStorage.setItem('music', JSON.stringify(this.props));
+    this.setState({ redirect: true });
+  }
+
   render() {
-    const { trackName, num, artistName, trackId
+    const { trackName, num, artistName, id
  } = this.props;
-    const { check, add, remove, classe } = this.state;
+    const { check, add, remove, classe, redirect } = this.state;
 
     let icone;
     // console.log(trackId);
@@ -100,15 +108,19 @@ class MusicCard extends React.Component {
 
     return (
       <div className="musicCard">
-        <Link to={`/music:${trackId}`} className='link'>
-          <section className='trackInfoContainer'>
-            <p className='num'>{ num }</p>
-          <div className='trackInfo'>
-          <p>{ musicName }</p>
-          <p className='artistSubTitle'>{ artist }</p>
-          </div>
-        </section>
-        </Link>
+        {(redirect) && (<Redirect to='/music/album' />)}
+        <div
+          onClick={ this.redirectToMusic }
+          className='link'
+          >
+            <section className='trackInfoContainer'>
+              <p className='num'>{ num }</p>
+            <div className='trackInfo'>
+            <p>{ musicName }</p>
+            <p className='artistSubTitle'>{ artist }</p>
+            </div>
+            </section>
+        </div>
         <div className={classe}>
           {favoritar}
         </div>

@@ -15,6 +15,10 @@
     width: 100%;
   }
 
+  .albumHeader a {
+    width: 30px;
+  }
+
   .voltarSearch {
     height: 30px;
   }
@@ -65,6 +69,7 @@
     margin-top: 10px;
     width: 60%;
     border-radius: 6px;
+    box-shadow: 0 0 1px rgb(255, 215, 215) , 0 0 1px rgb(255, 201, 201) , 0 0 0 rgb(255, 232, 232) , 0 0 0.8rem -5px rgb(255, 221, 221) , 0 0 1px -5px rgb(255, 195, 195) , inset 0 0 0 rgb(0, 0, 0);
   }
 
   .albumTilte {

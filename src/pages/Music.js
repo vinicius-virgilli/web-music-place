@@ -1,108 +1,81 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import Header from '../componentes/Header';
-import Loading from './Loading';
-import MusicCard from '../componentes/MusicCard';
-import { getUser } from '../services/userAPI';
-import { addSong, removeSong, getFavoriteSongs } from '../services/favoriteSongsAPI';
-import getMusics from '../services/musicsAPI';
+// import PropTypes from 'prop-types';
+import Footer from '../componentes/Footer';
+import getArtistImages from '../services/getArtistImages';
+import { Link, Redirect } from 'react-router-dom/cjs/react-router-dom.min';
+import discritics from 'diacritics';
+import iconeVoltar from '../imagens/iconeVoltar.png';
+import iconePesquisar from '../imagens/iconePesquisar.svg';
+import './music.css';
 
 class Music extends React.Component {
-  constructor() {
-    super();
 
-    this.state = {
-      loading: false,
-      userName: '',
-      albumInfo: [],
-      favoriteSongs: [],
-    };
-
-    this.test = this.test.bind(this);
-    this.madeMusicCard = this.madeMusicCard.bind(this);
-    this.onAddOrRemoveSong = this.onAddOrRemoveSong.bind(this);
+  state = {
+    musicInfo: {},
+    artistImages: [],
+    redirect: false,
+    index: 0,
   }
 
   async componentDidMount() {
-    const { match: { params: { id } } } = this.props;
-    this.test();
-    const albumInfo = await getMusics(id);
-    const musics = albumInfo.slice(1);
+    const { match: { params: { origem } } } = this.props;
+    console.log(origem);
+    let musics;
+    if (origem === 'album') {
+      musics = JSON.parse(localStorage.getItem('album'));
+    }
+    
+    let { artistName } = musics[0];
+    artistName = discritics.remove(artistName);
+    artistName = artistName.replace(/&/g, 'e');
+    console.log(artistName);
+    const artistImages = await getArtistImages(artistName);
     this.setState({
-      albumInfo: albumInfo[0],
       musics,
-    });
+      artistImages,
+    })
+    console.log(artistImages);
   }
 
-  async onAddOrRemoveSong(object) {
-    this.setState({ loading: true });
-    let { favoriteSongs } = this.state;
-    const { trackName } = object;
-    if (favoriteSongs.some((song) => song.trackName === trackName)) {
-      await removeSong(object);
-    } else {
-      await addSong(object);
-    }
-    favoriteSongs = await getFavoriteSongs();
-    this.setState({
-      loading: false,
-      favoriteSongs,
-    });
+  voltaParaAlbum = () => {
+    this.setState({ redirect: true })
   }
-
-  madeMusicCard(music) {
-    const { collectionId } = music;
-    const { favoriteSongs } = this.state;
-    return (
-      <li key={ collectionId }>
-        <MusicCard
-          { ...music }
-          onAddOrRemoveSong={ this.onAddOrRemoveSong }
-          favoriteSongs={ favoriteSongs }
-        />
-      </li>
-    );
-  }
-
-  async test() {
-    this.setState({ loading: true });
-    const retorno = await getUser();
-    const userName = retorno.name;
-    const favoriteSongs = await getFavoriteSongs();
-    this.setState({
-      userName,
-      loading: false,
-      favoriteSongs,
-    });
-  }
-
   render() {
-    const { history } = this.props;
-    const { loading, userName, albumInfo, musics } = this.state;
-    const { artistName, collectionName, image } = albumInfo;
-    let list;
-    if (musics) {
-      list = musics.map((music) => this.madeMusicCard(music));
-    } else {
-      list = '';
-    }
+    const idAlbum = JSON.parse(localStorage.getItem('idAlbum'));
+    const { musicInfo, artistImages, index, redirect } = this.state;
+    // console.log(trackName);
+    const list = artistImages.map((img, index) => (
+      <li key={index}>
+        <img src={img} alt=''/>
+        </li>
+    ))
 
-    const exibir = (loading) ? (
-      <Loading />
-    ) : (
-      <div data-testid="page-album">
-        <Header userName={ userName } image={image} history={history}/>
-        <h3 data-testid="artist-name">{artistName}</h3>
-        <h3 data-testid="album-name">{collectionName}</h3>
-        {list}
+    const image = list[index];
+    return (
+      <div className='musicContainer'>
+        {(redirect) && (
+          <Redirect to={`/album/${idAlbum}`} />
+        )}
+        <div>
+            <img
+              src={iconeVoltar}
+              alt='voltarSearch'
+              className='voltarSearch'
+              onClick={ this.voltaParaAlbum }
+            />
+        </div>
+        
+        <div className='artistImages'>
+          {list}
+        </div>
+        <Footer className='footer'/>
       </div>
     );
-    return exibir;
   }
 }
 
-/* Album.propTypes = {
-  match: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
-}; */
+// Music.propTypes = {
+//   match: PropTypes.string.isRequired,
+//   id: PropTypes.string.isRequired,
+// };
 export default Music;

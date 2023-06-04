@@ -10,6 +10,9 @@ import Footer from '../componentes/Footer';
 import iconeVoltar from '../imagens/iconeVoltar.png';
 import iconePesquisar from '../imagens/iconePesquisar.svg';
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
+import getInformation from '../services/getInformation';
+import getLyrics from '../services/lyricsAPI';
+import discritics from 'diacritics';
 
 class Album extends React.Component {
   constructor() {
@@ -19,8 +22,10 @@ class Album extends React.Component {
       loading: false,
       userName: '',
       albumInfo: {},
+      information: '',
       favoriteSongs: [],
       musics: [],
+      id: '',
     };
 
     this.test = this.test.bind(this);
@@ -31,12 +36,18 @@ class Album extends React.Component {
   async componentDidMount() {
     const { match: { params: { id } } } = this.props;
     this.test();
+    localStorage.setItem('idAlbum', JSON.stringify(id));
     const albumInfo = await getMusics(id);
-    console.log(albumInfo[1]);
+    let {artistName} = albumInfo[0]
+    let { trackName } = albumInfo[1];
+    const information = await getLyrics(artistName, trackName);
+    console.log(information);
     const musics = albumInfo.slice(1);
+    localStorage.setItem('album', JSON.stringify(musics));
     this.setState({
       albumInfo: albumInfo[0],
       musics,
+      id,
     });
   }
 
@@ -54,10 +65,11 @@ class Album extends React.Component {
 
   madeMusicCard(music, num) {
     const { collectionId } = music;
-    const { favoriteSongs } = this.state;
+    const { favoriteSongs, id } = this.state;
     return (
       <li key={ collectionId }>
         <MusicCard
+          id={ id }
           num={ num }
           { ...music }
           onAddOrRemoveSong={ this.onAddOrRemoveSong }

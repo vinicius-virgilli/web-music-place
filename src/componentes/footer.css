@@ -2,7 +2,7 @@
 @media (max-width: 450px) {
   footer {
     position: fixed;
-    background: linear-gradient(to bottom, #000000, #030352);
+    background: linear-gradient(to bottom, #00000078, #030352);
     bottom: 0;
     z-index: 5;
     height: 50px;
@@ -12,6 +12,7 @@
     justify-content: space-around;
     align-items: center;
     box-shadow: 5px 5px 5px blue;
+    border-top: 1px solid rgba(0, 0, 0, 0.51);
   }
 
   footer img {

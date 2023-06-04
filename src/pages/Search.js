@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 import Header from '../componentes/Header';
 import Loading from './Loading';
 import { getUser } from '../services/userAPI';
+import discritics from 'diacritics';
 import searchAlbumsAPI from '../services/searchAlbumsAPI';
 import './search.css';
 import Footer from '../componentes/Footer';
@@ -51,7 +52,8 @@ class Search extends React.Component {
   async getArtistInfo() {
     this.setState({ results: [] });
     this.setState({ isSearched: false });
-    const { searchedArtist } = this.state;
+    let { searchedArtist } = this.state;
+    searchedArtist = discritics.remove(searchedArtist);
     this.setState({ searching: true });
     let results;
     try {
@@ -108,11 +110,9 @@ class Search extends React.Component {
     collectionName,
   }) {
     const lastSearchedArtist = localStorage.getItem('lastSearchedArtist');
-    const data = releaseDate;
     const price = collectionPrice;
     let artist = artistName;
     const capaUrl = artworkUrl100;
-    const quantMusicas = trachCount;
     const nomeDaColecao = collectionName;
     if (artist.length > 15) {
       artist = `${lastSearchedArtist} e outros`;
@@ -120,7 +120,7 @@ class Search extends React.Component {
     return (
       <li key={ collectionId } className='albumLi' >
         <Link
-          to={ `album/${collectionId}` }
+          to={ `/album/${collectionId}` }
           className="album"
         >
           <div className="albumContainer">

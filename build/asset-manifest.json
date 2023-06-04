@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/static/css/main.28aac3da.css",
+    "main.js": "/static/js/main.a976c2c3.js",
+    "static/media/logoDarkTheme.png": "/static/media/logoDarkTheme.c50e1dcf3f378c03319a.png",
+    "static/media/gifFavoritosRemove.gif": "/static/media/gifFavoritosRemove.6175d59d50fa8f1e1865.gif",
+    "static/media/gifFavoritosAdd.gif": "/static/media/gifFavoritosAdd.58a764d1cbf7a4d17e6c.gif",
+    "static/media/logo.png": "/static/media/logo.a6236b6b990e4e6ab2ac.png",
+    "static/media/iconePesquisar.svg": "/static/media/iconePesquisar.2d43460876736f79943b3dd824e9f9e0.svg",
+    "static/media/iconePesquisarBranco.svg": "/static/media/iconePesquisarBranco.b5e76f52c623b640216f187091d1f69e.svg",
+    "static/media/iconePerfil.svg": "/static/media/iconePerfil.dd61b1a0f070025c9b5025a60f499437.svg",
+    "index.html": "/index.html",
+    "main.28aac3da.css.map": "/static/css/main.28aac3da.css.map",
+    "main.a976c2c3.js.map": "/static/js/main.a976c2c3.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.28aac3da.css",
+    "static/js/main.a976c2c3.js"
+  ]
+}

@@ -79,7 +79,7 @@ class App extends React.Component {
                 render={ (props) => (<FavoriteAlbums { ...props }/>) }
               />
               <Route
-                path="/music/:id?"
+                path="/music/:origem?"
                 render={ (props) => (<Music { ...props }/>) }
               />
               <Route
