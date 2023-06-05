@@ -1,14 +1,14 @@
 
 # Web Music Place 🎶
 
-## Descrição
+### Descrição
 Web Music Place é um projeto de plataforma web em construção, desenvolvido em React para exploração musical. O objetivo principal é criar um ambiente onde os usuários possam encontrar suas músicas favoritas, criar playlists personalizadas e explorar novos artistas e gêneros musicais. O projeto é focado no desenvolvimento frontend, utilizando HTML5, CSS3 e JavaScript. 🌐🎵🎧
 
 **Status do Projeto:** Em andamento 🚧
 <br>
 **Data de Apresentação:** 10 de junho de 2023 📅
 
-## Funcionalidades
+### Funcionalidades
 
 - Cadastro e login de usuários 🔐
 - Pesquisa de artistas/bandas e álbuns utilizando a API do iTunes 🔍
@@ -18,12 +18,12 @@ Web Music Place é um projeto de plataforma web em construção, desenvolvido em
 - Criação de playlists de músicas favoritas 🎶
 - Tradução das letras das músicas utilizando a API MyMemory 🌐
 
-## Tecnologias Utilizadas
+### Tecnologias Utilizadas
 
 - HTML5, CSS3 e JavaScript para o desenvolvimento frontend 🌐🎨🔧
 - React para a construção da interface de usuário ⚛️
 
-## Links da documentação oficial das APIs utilizadas neste projeto
+### Links da documentação oficial das APIs utilizadas neste projeto
 
 - API do iTunes (Pesquisa de artistas/bandas e álbuns): [Documentação do iTunes Search API](https://developer.apple.com/documentation/applemusicapi)
 
