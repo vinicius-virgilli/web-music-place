@@ -21,3 +21,11 @@ Web Music Place é um projeto de plataforma web em construção, desenvolvido em
 
 - HTML5, CSS3 e JavaScript para o desenvolvimento frontend 🌐🎨🔧
 - React para a construção da interface de usuário ⚛️
+
+## Links da documentação oficial das APIs utilizadas neste projeto
+
+- API do iTunes (Pesquisa de artistas/bandas e álbuns): [Documentação do iTunes Search API](https://developer.apple.com/documentation/applemusicapi)
+
+- API do Vagalume (Imagens dos artistas/bandas e letras das músicas): [Documentação do Vagalume API](https://api.vagalume.com.br/docs/)
+
+- API MyMemory (Tradução de letras de músicas): [Documentação do MyMemory API](https://mymemory.translated.net/doc/spec.php)
