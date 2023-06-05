@@ -17,7 +17,7 @@ const separaArtistName = (stringOriginal) => {
   let segundaParte = stringOriginal.slice(virgulaIndex + 1);
 //--------------------------------------------------------------
 
-  const eComercial = '&';
+  const eComercial = 'e';
 
   // Encontra a posição do separador na string
   const eComercialIndex = segundaParte.indexOf(eComercial);
@@ -34,18 +34,12 @@ const separaArtistName = (stringOriginal) => {
 }
 
 const getLyrics = async (artistName, musicName) => {
-  console.log(artistName, musicName);
   const possibilidades = separaArtistName(artistName);
-  console.log(possibilidades);
-  const promiseArray = possibilidades.map((name) => (
-    fetchVagalume(name, musicName)
-  ));
   const retorno = await Promise.any(
     possibilidades.map((name) => (
     fetchVagalume(name, musicName)
   ))
   )
-
   return retorno;
 };
 

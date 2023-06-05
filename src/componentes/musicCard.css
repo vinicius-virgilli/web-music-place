@@ -4,7 +4,6 @@
     justify-content: space-between;
     align-items: center;
     font-size: 16px;
-    height: 40px;
     margin-bottom: 30px;
   }
 
@@ -26,6 +25,7 @@
     display: flex;
     align-items: center;
     width: 100%;
+    margin: 0;
   }
 
   .trackInfoContainer div {
@@ -51,18 +51,8 @@
     color: rgba(255, 255, 255, 0.609);
   }
 
-  .favoritar img {
-    padding: 0;
-    border-radius: 50%;
-    background-color: black;
-    height: 25px;
-  }
-
-  .changeFavorite img {
-    padding: 0;
-    border-radius: 50%;
-    background-color: black;
-    height: 25px;
-    box-shadow: 0 0 1px rgb(220, 12, 12) , 0 0 10px rgb(220, 12, 12) , 0 0 0 rgb(220, 12, 12) , 0 0 0.8rem -5px rgb(220, 12, 12) , 0 0 2.4rem -5px rgb(220, 12, 12) , inset 0 0 0 rgb(220, 12, 12);
+  .artistImage img {
+    max-width: 80vw;
+    min-height: 35vh;
   }
 }

@@ -1,25 +1,96 @@
 @media (max-width: 450px) {
   .musicContainer {
+    height: 100vh;
+    background: linear-gradient(to bottom, #034e52, #00000c);
     display: flex;
     flex-direction: column;
     align-items: center;
   }
 
-  .voltarSearch {
-    margin-right: 80vw;
-    padding: 10px;
+  .musicHeader {
+    background: linear-gradient(to bottom, #04083c, #034e52);
+    height: 100px;
+    width: 100vw;
+    display: flex;
+    box-sizing: border-box;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px 0 0 0;
+  }
+
+  .logoDark {
+    height: 35px;
   }
 
   .artistImages {
     display: flex;
-    width: 80vw;
-    background-color: red;
-    box-sizing: border-box;
+    justify-content: space-between;
+    align-items: end;
+    min-height: 300px;
+    width: 100%;
   }
 
-  .footer {
+  .artistImage img{
+    padding-top: 40px;
+    max-width: 80vw;
+    max-height: 300px;
+    display: block;
+    margin: 0 auto;
+    transition: opacity 0.5s ease-in-out;
+    opacity: 1;
+  }
+
+  .artistImages img:hover {
+    opacity: 0.8;
+  }
+
+  .mudarImage {
+    height: 30px;
+    margin-bottom: 30px;
+  }
+
+  .musicMidleContainer {
+    margin: 30px;
+    display: flex;
+    width: 80%;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .musicName {
+    margin-left: 6vw;
+    width: 70vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .musicName span {
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.75);
+  }
+
+  .audio {
+    width: 80vw;
+    border-radius: 25px;
+    box-shadow: 0 0 1px rgb(0, 131, 103) , 0 0 1px rgb(0, 131, 103) , 0 0 0 rgb(0, 131, 103) , 0 0 0.8rem -5px rgb(0, 131, 103) , 0 0 1px -5px rgb(0, 131, 103) , inset 0 10 1px rgb(0, 131, 103);
+  }
+
+  .lyrics {
     position: fixed;
-    z-index: 2;
-    bottom: 0;
+    bottom: 50px;
+    min-height: 10vh;
+    margin-top: 30px;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .lyrics p {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.688);
   }
 }

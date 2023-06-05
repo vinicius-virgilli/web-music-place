@@ -1,90 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
+import Favoritar from './Favoritar';
 import './musicCard.css';
-import iconeFavoritosRed from '../imagens/iconeFavoritos.png';
-import iconeFavoritosWhite from '../imagens/coracaoBranco.png';
-import gifRemove from '../imagens/gifFavoritosRemove.gif';
-import gifAdd from '../imagens/gifFavoritosAdd.gif';
-import { Redirect, Link as div } from 'react-router-dom/cjs/react-router-dom.min';
-
 
 class MusicCard extends React.Component {
-  constructor() {
-    super();
+  state = {
+    redirect: false,
+  };
 
-    this.state = {
-      check: false,
-      add: false,
-      classe: 'favoritar',
-      remove: false,
-      redirect: false,
-    };
-
-    this.onChangeInput = this.onChangeInput.bind(this);
-    this.updateCheckBox = this.updateCheckBox.bind(this);
-    this.redirectToMusic = this.redirectToMusic.bind(this);
-  }
-
-  componentDidMount() {
-    this.updateCheckBox();
-  }
-
-  onChangeInput() {
-    const { onAddOrRemoveSong } = this.props;
-    const { check } = this.state;
-    if (check) {
-      this.setState({
-        remove: true,
-        classe: 'changeFavorite',
-      })
-    } else {this.setState({
-      add: true,
-      classe: 'changeFavorite',
-    })}
-    setTimeout(() => {
-      this.setState({
-        remove: false,
-        add: false,
-        classe: 'favoritar',
-      })
-    }, 600);
-    this.setState({ check: !check }, async () => onAddOrRemoveSong(this.props));
-  }
-
-  updateCheckBox() {
-    const { trackName, favoriteSongs } = this.props;
-    let test;
-    if (favoriteSongs) {
-      test = favoriteSongs.some((song) => song.trackName === trackName);
-    }
-    if (test) {
-      this.setState({ check: true });
-    } else { this.setState({ check: false }); }
-  }
-
-  redirectToMusic() {
+  redirectToMusic = () => {
     // console.log(trackName);
-    localStorage.setItem('music', JSON.stringify(this.props));
+    localStorage.setItem('musicIndex', JSON.stringify(this.props.num - 1));
     this.setState({ redirect: true });
   }
 
   render() {
-    const { trackName, num, artistName, id
+    const { trackName, num, artistName
  } = this.props;
-    const { check, add, remove, classe, redirect } = this.state;
-
-    let icone;
-    // console.log(trackId);
-    
-    if (add) {
-      icone = gifAdd;
-    } else if (remove) {
-      icone = gifRemove;
-    } else if (check) {
-      icone = iconeFavoritosRed;
-    } else {
-      icone = iconeFavoritosWhite;
-    }
+    const { redirect } = this.state;
 
     const musicName = (trackName.length > 31) ? (
       trackName.substring(0,31) + '...'
@@ -98,14 +32,6 @@ class MusicCard extends React.Component {
       artistName
     )
 
-    const favoritar = (
-            <img
-              src={ icone }
-              alt=""
-              onClick={this.onChangeInput}
-            />
-          )   
-
     return (
       <div className="musicCard">
         {(redirect) && (<Redirect to='/music/album' />)}
@@ -116,14 +42,12 @@ class MusicCard extends React.Component {
             <section className='trackInfoContainer'>
               <p className='num'>{ num }</p>
             <div className='trackInfo'>
-            <p>{ musicName }</p>
-            <p className='artistSubTitle'>{ artist }</p>
+              <p>{ musicName }</p>
+              <p className='artistSubTitle'>{ artist }</p>
             </div>
             </section>
         </div>
-        <div className={classe}>
-          {favoritar}
-        </div>
+        <Favoritar {... this.props}/>
       </div>
     );
   }

@@ -23,14 +23,12 @@ class Album extends React.Component {
       userName: '',
       albumInfo: {},
       information: '',
-      favoriteSongs: [],
       musics: [],
       id: '',
     };
 
     this.test = this.test.bind(this);
     this.madeMusicCard = this.madeMusicCard.bind(this);
-    this.onAddOrRemoveSong = this.onAddOrRemoveSong.bind(this);
   }
 
   async componentDidMount() {
@@ -38,10 +36,7 @@ class Album extends React.Component {
     this.test();
     localStorage.setItem('idAlbum', JSON.stringify(id));
     const albumInfo = await getMusics(id);
-    let {artistName} = albumInfo[0]
-    let { trackName } = albumInfo[1];
-    const information = await getLyrics(artistName, trackName);
-    console.log(information);
+    // console.log(information);
     const musics = albumInfo.slice(1);
     localStorage.setItem('album', JSON.stringify(musics));
     this.setState({
@@ -49,19 +44,13 @@ class Album extends React.Component {
       musics,
       id,
     });
+    let {artistName} = albumInfo[0]
+    let { trackName } = albumInfo[1];
+    const information = getLyrics(artistName, trackName);
+    this.setState({ information })
   }
 
-  async onAddOrRemoveSong(object) {
-    let { favoriteSongs } = this.state;
-    const { trackName } = object;
-    if (favoriteSongs.some((song) => song.trackName === trackName)) {
-      await removeSong(object);
-    } else {
-      await addSong(object);
-    }
-    favoriteSongs = await getFavoriteSongs();
-    this.setState({ favoriteSongs })
-  }
+
 
   madeMusicCard(music, num) {
     const { collectionId } = music;

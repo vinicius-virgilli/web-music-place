@@ -2,11 +2,15 @@ import React from 'react';
 // import PropTypes from 'prop-types';
 import Footer from '../componentes/Footer';
 import getArtistImages from '../services/getArtistImages';
-import { Link, Redirect } from 'react-router-dom/cjs/react-router-dom.min';
+import { Redirect } from 'react-router-dom/cjs/react-router-dom.min';
 import discritics from 'diacritics';
 import iconeVoltar from '../imagens/iconeVoltar.png';
-import iconePesquisar from '../imagens/iconePesquisar.svg';
+import anterior from '../imagens/anterior.png';
+import proximo from '../imagens/proximo.png';
+import logoDarkTheme from '../imagens/logoDarkTheme.png';
 import './music.css';
+import Favoritar from '../componentes/Favoritar';
+import getLyrics from '../services/lyricsAPI';
 
 class Music extends React.Component {
 
@@ -14,61 +18,130 @@ class Music extends React.Component {
     musicInfo: {},
     artistImages: [],
     redirect: false,
-    index: 0,
+    musics: [],
+    indexMusic: 0,
+    lyrics: '',
+    indexImage: 0,
   }
 
   async componentDidMount() {
     const { match: { params: { origem } } } = this.props;
-    console.log(origem);
+    // console.log(origem);
     let musics;
     if (origem === 'album') {
       musics = JSON.parse(localStorage.getItem('album'));
     }
+    const indexMusic = JSON.parse(localStorage.getItem('musicIndex'));
     
-    let { artistName } = musics[0];
-    artistName = discritics.remove(artistName);
-    artistName = artistName.replace(/&/g, 'e');
-    console.log(artistName);
-    const artistImages = await getArtistImages(artistName);
     this.setState({
       musics,
-      artistImages,
+      indexMusic,
     })
-    console.log(artistImages);
+    let { artistName } = musics[0];
+    let  { trackName } = musics[indexMusic]
+    artistName = discritics.remove(artistName);
+    artistName = artistName.replace(/&/g, 'e');
+    trackName = trackName.replace(/&/g, 'e');
+    let artistImages = await getArtistImages(artistName, trackName);
+    if (!artistImages) {
+      artistImages = [musics[0].artworkUrl100]
+    }
+    this.setState({ artistImages });
+    // console.log(artistImages);
+    const lyrics = await getLyrics(artistName, trackName);
+    // console.log(lyrics);
+    if (lyrics) {
+      this.setState({ lyrics })
+    }
   }
 
   voltaParaAlbum = () => {
     this.setState({ redirect: true })
   }
+
+  changeImage = ({target}) => {
+    const { artistImages, indexImage } = this.state;
+    const ultima = artistImages.length - 1;
+    const { alt } = target;
+    // console.log(alt, ultima);
+    if (alt === 'próximo') {
+      if (indexImage == ultima) {
+        this.setState({ indexImage: 0 })
+      } else { this.setState({indexImage: indexImage + 1 }) }
+    } else {
+      if (indexImage === 0) {
+        this.setState({ indexImage: ultima })
+      } else {
+        this.setState({ indexImage: indexImage - 1 })
+      }
+    }
+
+  }
   render() {
     const idAlbum = JSON.parse(localStorage.getItem('idAlbum'));
-    const { musicInfo, artistImages, index, redirect } = this.state;
-    // console.log(trackName);
-    const list = artistImages.map((img, index) => (
-      <li key={index}>
+    const { musics, indexMusic,  artistImages, indexImage, redirect, lyrics } = this.state;
+    // console.log(artistImages);
+    const imageList = artistImages.map((img, index) => (
+      <li key={index} className='artistImage'>
         <img src={img} alt=''/>
         </li>
     ))
 
-    const image = list[index];
+    // console.log(lyrics);
+    const image = imageList[indexImage];
+    const music = musics[indexMusic];
+    // console.log(music);
     return (
       <div className='musicContainer'>
         {(redirect) && (
           <Redirect to={`/album/${idAlbum}`} />
         )}
-        <div>
+        <div className='musicHeader'>
             <img
               src={iconeVoltar}
               alt='voltarSearch'
               className='voltarSearch'
               onClick={ this.voltaParaAlbum }
             />
+            <img src={logoDarkTheme} alt="" className='logoDark'/>
         </div>
         
         <div className='artistImages'>
-          {list}
+          <img
+            src={anterior}
+            alt="anterior"
+            className='mudarImage'
+            onClick={ this.changeImage}
+          />
+          <div className='artistImage'>
+            {image}
+          </div>
+          <img
+            src={proximo}
+            alt="próximo"
+            className='mudarImage'
+            onClick={ this.changeImage}
+          />
+        </div>
+        <div className='musicMidleContainer'>
+          <div className='musicName'>
+            {music && <h1>{music.trackName}</h1>}
+            {music && <span>{music.artistName}</span>}
+          </div>
+          <Favoritar {...music} num={indexMusic + 1}/>
         </div>
         <Footer className='footer'/>
+        <div className='player'>
+          {music && (
+            <audio src={music.previewUrl} /* autoPlay */ loop className='audio' controls>
+            <track kind="captions"/>
+              O seu navegador não suporta o elemento{" "} <code>audio</code>.
+            </audio>
+          )}
+        </div>
+        <section className='lyrics'>
+          {lyrics.length > 1 ? <div>{lyrics}</div> : <p>{'letra não disponível'}</p>}
+        </section>
       </div>
     );
   }
