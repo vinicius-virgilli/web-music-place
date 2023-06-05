@@ -21,6 +21,7 @@ class Music extends React.Component {
     musics: [],
     indexMusic: 0,
     lyrics: '',
+    lyricsContainer: '',
     indexImage: 0,
   }
 
@@ -51,7 +52,7 @@ class Music extends React.Component {
     const lyrics = await getLyrics(artistName, trackName);
     // console.log(lyrics);
     if (lyrics) {
-      this.setState({ lyrics })
+      this.setState({ lyrics }, () => this.showLyrics())
     }
   }
 
@@ -63,9 +64,8 @@ class Music extends React.Component {
     const { artistImages, indexImage } = this.state;
     const ultima = artistImages.length - 1;
     const { alt } = target;
-    // console.log(alt, ultima);
     if (alt === 'próximo') {
-      if (indexImage == ultima) {
+      if (indexImage === ultima) {
         this.setState({ indexImage: 0 })
       } else { this.setState({indexImage: indexImage + 1 }) }
     } else {
@@ -75,11 +75,30 @@ class Music extends React.Component {
         this.setState({ indexImage: indexImage - 1 })
       }
     }
+  }
 
+  showLyrics = () => {
+    let { lyrics, lyricsContainer } = this.state;
+    if (!lyricsContainer) {
+      lyricsContainer = (
+        <div className='lyricsContainer'>
+          <button
+            onClick={ this.showTranslate }
+            className='showTranslate'
+            >
+            Ver tradução
+          </button>
+          <section className='lyrics'>
+            {lyrics}
+          </section>
+        </div>
+      );
+    } else { lyricsContainer = ''; }
+    this.setState({ lyricsContainer });
   }
   render() {
     const idAlbum = JSON.parse(localStorage.getItem('idAlbum'));
-    const { musics, indexMusic,  artistImages, indexImage, redirect, lyrics } = this.state;
+    const { musics, indexMusic,  artistImages, indexImage, redirect, lyrics, lyricsContainer } = this.state;
     // console.log(artistImages);
     const imageList = artistImages.map((img, index) => (
       <li key={index} className='artistImage'>
@@ -106,22 +125,26 @@ class Music extends React.Component {
             <img src={logoDarkTheme} alt="" className='logoDark'/>
         </div>
         
-        <div className='artistImages'>
-          <img
+        <div className={(imageList.length > 1 ? (
+          'artistImagesContainer'
+        ) : (
+          'artistImageContainer'
+        ))}>
+          {(imageList.length > 1) && <img
             src={anterior}
             alt="anterior"
             className='mudarImage'
             onClick={ this.changeImage}
-          />
+          />}
           <div className='artistImage'>
             {image}
           </div>
-          <img
+          {(imageList.length > 1) && <img
             src={proximo}
             alt="próximo"
             className='mudarImage'
             onClick={ this.changeImage}
-          />
+          />}
         </div>
         <div className='musicMidleContainer'>
           <div className='musicName'>
@@ -139,9 +162,15 @@ class Music extends React.Component {
             </audio>
           )}
         </div>
-        <section className='lyrics'>
-          {lyrics.length > 1 ? <div>{lyrics}</div> : <p>{'letra não disponível'}</p>}
+        <section>
+          {(lyrics) ? (
+            <button
+              onClick={ this.showLyrics}
+              className='showLyrics'
+            >Ver letra</button>
+          ) : (<p>{'Letra não disponível'}</p>)}
         </section>
+        { lyricsContainer }
       </div>
     );
   }
