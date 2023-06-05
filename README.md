@@ -1,5 +1,5 @@
 
-# Web Music Place 🎶
+<img src='https://github.com/vinicius-virgilli/web-music-place/blob/main/src/imagens/logoDarkTheme.png' alt='logo do web music place'/>
 
 ### Descrição
 Web Music Place é um projeto de plataforma web em construção, desenvolvido em React para exploração musical. O objetivo principal é criar um ambiente onde os usuários possam encontrar suas músicas favoritas, criar playlists personalizadas e explorar novos artistas e gêneros musicais. O projeto é focado no desenvolvimento frontend, utilizando HTML5, CSS3 e JavaScript. 🌐🎵🎧
