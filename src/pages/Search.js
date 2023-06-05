@@ -77,7 +77,6 @@ class Search extends React.Component {
   }
 
   async test() {
-    this.setState({ loading: true });
     const retorno = await getUser();
     const userName = retorno.name;
     const image = retorno.image;
@@ -89,7 +88,6 @@ class Search extends React.Component {
     }
     this.setState({
       userName,
-      loading: false,
       image,
     });
   }

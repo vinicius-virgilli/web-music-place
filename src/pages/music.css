@@ -22,9 +22,17 @@
     height: 35px;
   }
 
-  .artistImages {
+  .artistImagesContainer {
     display: flex;
     justify-content: space-between;
+    align-items: end;
+    min-height: 300px;
+    width: 100%;
+  }
+
+  .artistImageContainer {
+    display: flex;
+    justify-content: center;
     align-items: end;
     min-height: 300px;
     width: 100%;
@@ -75,22 +83,5 @@
     width: 80vw;
     border-radius: 25px;
     box-shadow: 0 0 1px rgb(0, 131, 103) , 0 0 1px rgb(0, 131, 103) , 0 0 0 rgb(0, 131, 103) , 0 0 0.8rem -5px rgb(0, 131, 103) , 0 0 1px -5px rgb(0, 131, 103) , inset 0 10 1px rgb(0, 131, 103);
-  }
-
-  .lyrics {
-    position: fixed;
-    bottom: 50px;
-    min-height: 10vh;
-    margin-top: 30px;
-    width: 100vw;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .lyrics p {
-    font-size: 16px;
-    color: rgba(255, 255, 255, 0.688);
   }
 }
