@@ -6,7 +6,7 @@ Web Music Place é um projeto de plataforma web em construção, desenvolvido em
 
 **Status do Projeto:** Em andamento 🚧
 <br>
-**Data de Apresentação:** 20 de junho de 2023 📅
+**Data de Apresentação:** 10 de julho de 2023 📅
 
 ### Funcionalidades
 
