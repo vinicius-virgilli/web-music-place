@@ -3,16 +3,15 @@ import PropTypes from 'prop-types';
 import Loading from './Loading';
 import MusicCard from '../componentes/MusicCard';
 import { getUser } from '../services/userAPI';
-import { addSong, removeSong, getFavoriteSongs } from '../services/favoriteSongsAPI';
+import { getFavoriteSongs } from '../services/favoriteSongsAPI';
 import getMusics from '../services/musicsAPI';
 import './album.css';
 import Footer from '../componentes/Footer';
 import iconeVoltar from '../imagens/iconeVoltar.png';
 import iconePesquisar from '../imagens/iconePesquisar.svg';
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
-import getInformation from '../services/getInformation';
 import getLyrics from '../services/lyricsAPI';
-import discritics from 'diacritics';
+import timeConverter from '../services/timeConverter';
 
 class Album extends React.Component {
   constructor() {
@@ -96,6 +95,13 @@ class Album extends React.Component {
       list = '';
     }
 
+    let frase = '';
+
+    if (musics) {
+      const time = musics.length * 30;
+      frase = timeConverter(time);
+    }
+
     const subTitle = (list.length === 1) ? 'Single' : 'Album';
 
     if (subTitle === 'Single') {
@@ -132,7 +138,11 @@ class Album extends React.Component {
           alt=''
           className='imageAlbum' />
         <h2 className='albumTilte'>{collectionName}</h2>
+
+        <p className='frase'>{frase}</p>
+        
         {list}
+  
         <Footer />
       </div>
     );

@@ -35,11 +35,17 @@ const separaArtistName = (stringOriginal) => {
 
 const getLyrics = async (artistName, musicName) => {
   const possibilidades = separaArtistName(artistName);
-  const retorno = await Promise.any(
+  let retorno = false;
+  try {
+    retorno = await Promise.any(
     possibilidades.map((name) => (
     fetchVagalume(name, musicName)
   ))
   )
+  } catch {
+    retorno = false;
+  }
+
   return retorno;
 };
 
