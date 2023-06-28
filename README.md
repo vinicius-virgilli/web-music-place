@@ -15,13 +15,15 @@ Web Music Place é um projeto de plataforma web em construção, desenvolvido em
 - Visualização das músicas de um álbum 🎵
 - Reprodução de músicas selecionadas 🎧
 - Visualização de imagens dos artistas/bandas e letras das músicas utilizando a API do Vagalume 📷
-- Criação de playlists de músicas favoritas 🎶
-- Tradução das letras das músicas utilizando a API MyMemory 🌐
+- Criação de várias playlists personalizadas 🎶
+- Tradução para várias línguas das letras das músicas utilizando a API MyMemory 🌐
 
 ### Tecnologias Utilizadas
 
 - HTML5, CSS3 e JavaScript para o desenvolvimento frontend 🌐🎨🔧
 - React para a construção da interface de usuário ⚛️
+- Redux para gerenciamento do stado global
+- Reach Testing Library para implementar testes
 
 ### Links da documentação oficial das APIs utilizadas neste projeto
 
